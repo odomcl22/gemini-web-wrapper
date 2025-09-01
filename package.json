@@ -1,0 +1,73 @@
+{
+  "name": "gemini-web-wrapper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Electron wrapper for Google Gemini with in-app Google sign-in (popup allowlist) and camera support.",
+  "license": "MIT",
+  "author": {
+    "name": "Christian Odom",
+    "email": "odomcl22@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/odomcl22/gemini-web-wrapper",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/odomcl22/gemini-web-wrapper.git"
+  },
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder -mwl",
+    "start:work": "cross-env PROFILE=work electron .",
+    "package-mac": "electron-packager . GeminiWrapper --platform=darwin --arch=arm64,x64 --icon=assets/icon.icns --overwrite",
+    "package-win": "electron-packager . GeminiWrapper --platform=win32 --arch=x64 --icon=assets/icon.ico --overwrite",
+    "package-linux": "electron-packager . GeminiWrapper --platform=linux --arch=x64 --icon=assets/icon.png --overwrite"
+  },
+  "build": {
+    "appId": "com.odomcl22.geminiwrapper",
+    "productName": "Gemini Wrapper",
+    "files": [
+      "**/*",
+      "!release-builds/**",
+      "!dist/**",
+      "!**/*.log"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "icon": "assets/icon.icns",
+      "target": ["dmg", "zip"],
+      "hardenedRuntime": false,
+      "extendInfo": {
+        "NSCameraUsageDescription": "Gemini Wrapper needs camera access for sites that request it.",
+        "NSMicrophoneUsageDescription": "Gemini Wrapper needs microphone access for sites that request it."
+      }
+    },
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": ["nsis", "portable"]
+    },
+    "linux": {
+      "icon": "assets/icon.png",
+      "target": ["AppImage", "deb"],
+      "category": "Utility",
+      "maintainer": "Christian Odom <odomcl22@users.noreply.github.com>"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "odomcl22",
+        "repo": "gemini-web-wrapper",
+        "releaseType": "draft"
+      }
+    ]
+  },
+  "dependencies": {
+    "electron-store": "^9.0.0",
+    "electron-updater": "^6.6.2"
+  },
+  "devDependencies": {
+    "cross-env": "^10.0.0",
+    "electron": "^31.3.0",
+    "electron-builder": "^26.0.12",
+    "electron-packager": "^17.1.2"
+  }
+}
